@@ -84,25 +84,25 @@ add_action("init", "register_link_group_block");
 
 function render_link_group_block($attributes, $content)
 {
+  $content = remove_html_links($content);
   $extra_class = !empty($attributes["extraClass"])
     ? esc_attr($attributes["extraClass"])
     : "";
   $wrapper_attributes = get_block_wrapper_attributes([
-    "class" => trim($extra_class),
+    "class" => trim($extra_class) . " link-group ",
   ]);
-    // Säkerställ att link-attributet är satt och är en sträng
-    $link = isset($attributes['link']) ? esc_url($attributes['link']) : '';
-    // Om en länk är satt, gör hela blocket till en <a>-tagg
-    if (!empty($link)) {
-        return '<a href="' .
-        $link .
-        '" ' .
-        $wrapper_attributes .
-        ">" .
-        $content .
-        "</a>";
-    } else {
-
+  // Säkerställ att link-attributet är satt och är en sträng
+  $link = isset($attributes["link"]) ? esc_url($attributes["link"]) : "";
+  // Om en länk är satt, gör hela blocket till en <a>-tagg
+  if (!empty($link)) {
+    return '<a href="' .
+      $link .
+      '" ' .
+      $wrapper_attributes .
+      ">" .
+      $content .
+      "</a>";
+  } else {
     return '<a href="' .
       get_the_permalink(get_the_ID()) .
       '" ' .
@@ -110,8 +110,7 @@ function render_link_group_block($attributes, $content)
       ">" .
       $content .
       "</a>";
-      }
-    
+  }
 }
 
 function remove_html_links($innercontent)
