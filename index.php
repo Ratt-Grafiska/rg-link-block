@@ -14,4 +14,4 @@ if (!defined('ABSPATH')) {
 }
 
 require_once plugin_dir_path(__FILE__) . 'blocks/link-block/rg-link-block.php';
-require_once plugin_dir_path(__FILE__) . 'rg-link-group-block.php';
+require_once plugin_dir_path(__FILE__) . 'rg-git-updater.php';
