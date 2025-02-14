@@ -3,15 +3,15 @@
 /**
  * Plugin Name: RG Link Group Block
  * Description: A custom block for creating a linked group of innerblocks.
- * Version: 1.0.0
+ * Version: 0.0.9
  * Author: Ratt Grafiska
  * Plugin URI: https://github.com/Ratt-Grafiska/rg-link-group-block
  * Update URI: https://github.com/Ratt-Grafiska/rg-link-group-block
  */
 
-if (!defined('ABSPATH')) {
-    exit; // Skyddar mot direkt åtkomst
+if (!defined("ABSPATH")) {
+  exit(); // Skyddar mot direkt åtkomst
 }
 
-require_once plugin_dir_path(__FILE__) . 'blocks/link-block/rg-link-block.php';
-require_once plugin_dir_path(__FILE__) . 'rg-git-updater.php';
+require_once plugin_dir_path(__FILE__) . "blocks/link-block/rg-link-block.php";
+// require_once plugin_dir_path(__FILE__) . 'rg-git-updater.php';

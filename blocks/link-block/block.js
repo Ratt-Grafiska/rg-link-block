@@ -1,64 +1,40 @@
 const { registerBlockType, createBlock } = wp.blocks;
-const { createElement } = wp.element;
-const { InnerBlocks } = wp.blockEditor;
+const { InnerBlocks, InspectorControls } = wp.blockEditor;
+const { PanelBody, TextControl } = wp.components;
 const { __ } = wp.i18n;
+const {__experimentalLinkControl: LinkControl} = wp.blockEditor;
+
 
 registerBlockType("link/group-block", {
   title: __("Link Group Block", "link-group-block"),
   icon: "admin-links",
   category: "layout",
   attributes: {
-    className: {
-      type: "string",
-      default: "",
-    },
-    extraClass: {
-      type: "string",
-      default: "",
-    },
-  },
-  supports: {
-    align: ["wide", "full"],
-    anchor: true,
-    html: false,
-    color: {
-      background: true,
-      text: true,
-      gradients: true,
-    },
-    spacing: {
-      margin: true,
-      padding: true,
-    },
-  },
-  transforms: {
-    from: [
-      {
-        type: "block",
-        blocks: ["core/group"],
-        transform: (attributes, innerBlocks) => {
-          return createBlock("link/group-block", attributes, innerBlocks);
-        },
-      },
-    ],
-    to: [
-      {
-        type: "block",
-        blocks: ["link/group-block"],
-        transform: (attributes, innerBlocks) => {
-          return createBlock("core/group", attributes, innerBlocks);
-        },
-      },
-    ],
+    link: { type: "string", default: "" }
   },
   edit: function (props) {
-    return createElement(
+    const { attributes, setAttributes } = props;
+
+    return wp.element.createElement(
       "div",
-      { className: props.className || "link-group-block-editor" },
-      createElement(InnerBlocks)
+      { className: "link-group-block-editor" },
+      wp.element.createElement(
+        InspectorControls,
+        {},
+        wp.element.createElement(
+          PanelBody,
+          { title: __("Link Settings", "link-group-block") },
+          wp.element.createElement(TextControl, {
+            label: __("URL", "link-group-block"),
+            value: attributes.link,
+            onChange: (newValue) => setAttributes({ link: newValue })
+          })
+        )
+      ),
+      wp.element.createElement(InnerBlocks)
     );
   },
   save: function () {
-    return createElement(InnerBlocks.Content);
-  },
+    return wp.element.createElement(InnerBlocks.Content);
+  }
 });
