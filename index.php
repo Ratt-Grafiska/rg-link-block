@@ -14,4 +14,9 @@ if (!defined("ABSPATH")) {
 }
 
 require_once plugin_dir_path(__FILE__) . "blocks/link-block/rg-link-block.php";
-// require_once plugin_dir_path(__FILE__) . 'rg-git-updater.php';
+
+
+// Initiera uppdateraren
+if (!class_exists("RgGitUpdater")) {
+  require_once plugin_dir_path(__FILE__) . "rg-git-updater.php";
+}
