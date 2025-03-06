@@ -37,8 +37,6 @@ function register_link_group_block()
       "textColor" => ["type" => "string"],
       "gradient" => ["type" => "string"],
       "style" => ["type" => "object"],
-      "link" => ["type" => "string", "default" => ""],
-      "target" => ["type" => "boolean", "default" => false],
     ],
     "supports" => [
       "align" => ["wide", "full"],
@@ -52,6 +50,32 @@ function register_link_group_block()
       "spacing" => [
         "margin" => true,
         "padding" => true,
+      ],
+    ],
+    "transforms" => [
+      "from" => [
+        [
+          "blocks" => ["core/group"],
+          "transform" => function ($attributes, $innerBlocks) {
+            return [
+              "blockName" => "link/group-block",
+              "attributes" => $attributes,
+              "innerBlocks" => $innerBlocks,
+            ];
+          },
+        ],
+      ],
+      "to" => [
+        [
+          "blocks" => ["core/group"],
+          "transform" => function ($attributes, $innerBlocks) {
+            return [
+              "blockName" => "core/group",
+              "attributes" => $attributes,
+              "innerBlocks" => $innerBlocks,
+            ];
+          },
+        ],
       ],
     ],
   ]);
@@ -69,13 +93,23 @@ function render_link_group_block($attributes, $content)
   ]);
   // Säkerställ att link-attributet är satt och är en sträng
   $link = isset($attributes["link"]) ? esc_url($attributes["link"]) : "";
-  $target = isset($attributes["target"]) && $attributes["target"] ? ' target="_blank" rel="noopener noreferrer"' : '';
-  
   // Om en länk är satt, gör hela blocket till en <a>-tagg
   if (!empty($link)) {
-    return '<a href="' . $link . '" ' . $target . ' ' . $wrapper_attributes . '>' . $content . '</a>';
+    return '<a href="' .
+      $link .
+      '" ' .
+      $wrapper_attributes .
+      ">" .
+      $content .
+      "</a>";
   } else {
-    return '<a href="' . get_the_permalink(get_the_ID()) . '" ' . $target . ' ' . $wrapper_attributes . '>' . $content . '</a>';
+    return '<a href="' .
+      get_the_permalink(get_the_ID()) .
+      '" ' .
+      $wrapper_attributes .
+      ">" .
+      $content .
+      "</a>";
   }
 }
 
